@@ -37,8 +37,20 @@
                     <th><p>Параметры</p></th>
                     <th><p>Описание</p></th>
                 </tr>
+                @{ 
+                    Pizza.Models.API old = null;
+                }
                 @foreach (var a in ViewBag.Apis)
                 {
+                    string divider = "";
+                    if (old != null)
+                    {
+                        if (!old.url.Substring(0, old.url.IndexOf('/') - 1).Equals(a.url.Substring(0, a.url.IndexOf('/') - 1)))
+                        {
+                            divider = "<tr><td colspan=\"6\"><br /></td></tr>";
+                        }
+                    }
+                    @Html.Raw(divider)
                     <tr>
                         <td><a href="@a.url">@a.url</a></td>
                         <td>@a.type</td>
@@ -47,6 +59,7 @@
                         <td>@a.parameters</td>
                         <td>@a.description</td>
                     </tr>
+                    old = a;
                 }
             </table>
             <!--<br /><p>В функции, которые требуют авторизации, необходимо передавать хэш токена в параметре 'token'.</p>
