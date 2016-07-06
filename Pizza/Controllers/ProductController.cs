@@ -26,17 +26,31 @@ namespace Pizza.Controllers
             // в LinqToEntities перед Skip() надо вызывать OrderBy()
             // ToList() надо вызывать именно здесь, чтобы материализовать
             // только нужные данные
-            var model = query.OrderBy(o => o.id).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var model = query.OrderBy(o => o.id).Skip((page - 1) * pageSize).Take(pageSize).Join(
+                dbContext.Measures, 
+                p => p.measure,
+                m => m.id,
+                (p, m) => new
+                {
+                    id = p.id,
+                    title = p.title,
+                    measure = m.title,
+                    category = p.type,
+                    cost = p.cost,
+                    available = p.available,
+                    advertising = p.advertising
+                }
+                ).ToList();
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult Pages(int pageSize = -1)
+        public JsonResult Pages(int pageSize = -1, int category = -1)
         {
             if (pageSize < 1)
                 return Json("bad argument", JsonRequestBehavior.AllowGet);
             // формируем запрос полного набора данных
             // для определения количества страниц
-            var query = dbContext.Products;
+            var query = category == -1 ? dbContext.Products : dbContext.Products.Where(p => p.type == category);
 
             int totalPages = (int)(Math.Ceiling(query.Count() / (decimal)pageSize));
 

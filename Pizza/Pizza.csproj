@@ -141,6 +141,7 @@
     <Compile Include="Models\Auth\DBEntities\Token.cs" />
     <Compile Include="Models\Auth\TokenCreator.cs" />
     <Compile Include="Models\DBContext.cs" />
+    <Compile Include="Models\DBEntities\Measure.cs" />
     <Compile Include="Models\DBEntities\Product.cs" />
     <Compile Include="Models\DBEntities\User.cs" />
     <Compile Include="Models\DBEntities\UserAddress.cs" />
