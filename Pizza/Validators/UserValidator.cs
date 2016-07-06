@@ -90,11 +90,48 @@ namespace Pizza.Validators
                 checkFlag = false;
             }
             else
-                if (user.password.Length < 1)
+                if (user.password.Length < 6)
             {
-                errors.Add(new Error { error = "Пустой пароль недопустим" });
+                errors.Add(new Error { error = "Минимальная длина пароля 6 символов" });
                 checkFlag = false;
             }
+
+            return checkFlag;
+        }
+
+        public static bool CheckUpdate(User user, out List<Error> errors)
+        {
+            errors = new List<Error>();
+            bool checkFlag = true;
+
+            if (user.password != null)
+                if (user.password.Length < 6)
+                {
+                    errors.Add(new Error { error = "Минимальная длина пароля 6 символов" });
+                    checkFlag = false;
+                }
+
+            var emailChecker = new EmailAddressAttribute();
+            if (user.email != null)
+                if (!emailChecker.IsValid(user.email))
+                {
+                    errors.Add(new Error { error = "Неверный формат email адреса" });
+                    checkFlag = false;
+                }
+
+            if (user.name != null)
+                if (user.name.Length < 3)
+                {
+                    errors.Add(new Error { error = "Минимальная длина имени 3 символа" });
+                    checkFlag = false;
+                }
+
+            if(user.surname != null)
+                if (user.surname.Length < 3)
+                {
+                    errors.Add(new Error { error = "Минимальная длина фамилии 3 символа" });
+                    checkFlag = false;
+                }
 
             return checkFlag;
         }

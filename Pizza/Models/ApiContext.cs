@@ -20,6 +20,7 @@ namespace Pizza.Models
             Apis.Add(new API { requireToken = true, url = "User/AddAddress", type = "POST (сейчас есть GET)", parameters = "string address [Адрес]", description = "Добавление адреса текущему пользователю.", returns = "ok/wrong token" });
             Apis.Add(new API { requireToken = true, url = "User/GetTelList", type = "GET", parameters = "-", description = "Номера телефонов текущего пользователя.", returns = "JsonArray/wrong token" });
             Apis.Add(new API { requireToken = true, url = "User/GetAddressList", type = "GET", parameters = "-", description = "Адреса текущего пользователя.", returns = "JsonArray/wrong token" });
+            Apis.Add(new API { requireToken = true, url = "User/Edit", type = "POST (сейчас есть GET)", parameters = "string token [Access token], string password [Пароль], string email [Email], string name [Имя], string surname [Фамилия]", description = "Редактирование профиля пользователя.", returns = "ok/wrong token/nothing to edit" });
         }
     }
 }
