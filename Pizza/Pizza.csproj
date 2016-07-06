@@ -141,6 +141,8 @@
     <Compile Include="Models\Auth\TokenCreator.cs" />
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\DBEntities\User.cs" />
+    <Compile Include="Models\DBEntities\UserAddress.cs" />
+    <Compile Include="Models\DBEntities\UserTelephone.cs" />
     <Compile Include="Models\Error.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\UserValidator.cs" />
@@ -164,6 +166,9 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

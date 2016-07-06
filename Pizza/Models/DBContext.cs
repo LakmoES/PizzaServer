@@ -18,10 +18,14 @@ namespace Pizza.Models
             modelBuilder.HasDefaultSchema(schemaName);
             modelBuilder.Entity<User>().ToTable("user", schemaName);
             modelBuilder.Entity<Token>().ToTable("token", schemaName);
+            modelBuilder.Entity<UserTelephone>().ToTable("usertelephone", schemaName);
+            modelBuilder.Entity<UserAddress>().ToTable("useraddress", schemaName);
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<UserTelephone> UserTelephones { get; set; }
+        public DbSet<UserAddress> UserAddress { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {
