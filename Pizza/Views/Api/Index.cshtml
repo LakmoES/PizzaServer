@@ -1,0 +1,58 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>API</title>
+    <style type="text/css">
+        TABLE {
+            width: 80%; /* Ширина таблицы */
+            border-collapse: collapse; /* Убираем двойные линии между ячейками */
+        }
+
+        TD, TH {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid black; /* Параметры рамки */
+        }
+
+        TH {
+            background: #b0e0e6; /* Цвет фона */
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <div>
+            <h3>API</h3>
+            <table>
+                <tr>
+                    <th><p>Ссылка</p></th>
+                    <th><p>Тип</p></th>
+                    <th><p>Требуется авторизация</p></th>
+                    <th><p>Возвращает</p></th>
+                    <th><p>Параметры</p></th>
+                    <th><p>Описание</p></th>
+                </tr>
+                @foreach (var a in ViewBag.Apis)
+                {
+                    <tr>
+                        <td><a href="@a.url">@a.url</a></td>
+                        <td>@a.type</td>
+                        <td>@a.requireToken</td>
+                        <td>@a.returns</td>
+                        <td>@a.parameters</td>
+                        <td>@a.description</td>
+                    </tr>
+                }
+            </table>
+            <!--<br /><p>В функции, которые требуют авторизации, необходимо передавать хэш токена в параметре 'token'.</p>
+            <br /><p>Время жизни access token указано в минутах.</p>-->
+        </div>
+    </body>
+</body>
+</html>
