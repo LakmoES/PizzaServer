@@ -22,8 +22,8 @@ namespace Pizza.Models
             Apis.Add(new API { requireToken = true, url = "User/GetAddressList", type = "GET", parameters = "-", description = "Адреса текущего пользователя.", returns = "JsonArray/wrong token" });
             Apis.Add(new API { requireToken = true, url = "User/Edit", type = "POST (сейчас есть GET)", parameters = "string token [Access token], string password [Пароль], string email [Email], string name [Имя], string surname [Фамилия]", description = "Редактирование профиля пользователя.", returns = "ok/wrong token/nothing to edit" });
 
-            Apis.Add(new API { requireToken = true, url = "Product/GetPage", type = "GET", parameters = "int page [Номер страницы], int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Постраничный вывод товаров. Категорию можно не указывать.", returns = "bad argument/JsonArray" });
-            Apis.Add(new API { requireToken = true, url = "Product/Pages", type = "GET", parameters = "int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Количество страниц с товаром, если на каждой странице pageSize товаров. Категорию можно не указывать.", returns = "bad argument/number" });
+            Apis.Add(new API { requireToken = false, url = "Product/GetPage", type = "GET", parameters = "int page [Номер страницы], int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Постраничный вывод товаров. Категорию можно не указывать.", returns = "JsonArray/bad argument" });
+            Apis.Add(new API { requireToken = false, url = "Product/Pages", type = "GET", parameters = "int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Количество страниц с товаром, если на каждой странице pageSize товаров. Категорию можно не указывать.", returns = "number/bad argument" });
         }
     }
 }
