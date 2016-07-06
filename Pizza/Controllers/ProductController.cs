@@ -1,4 +1,5 @@
 ﻿using Pizza.Models;
+using Pizza.Models.DBEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,23 @@ namespace Pizza.Controllers
             int totalPages = (int)(Math.Ceiling(query.Count() / (decimal)pageSize));
 
             return Json(totalPages, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetCategoryName(int category = -1)
+        {
+            if (category < 1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            var productType = dbContext.ProductTypes.Find(category);
+            if (productType == null)
+                return Json("false", JsonRequestBehavior.AllowGet);
+
+            return Json(new { name = productType.title }, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetCategoryList()
+        {
+            IEnumerable<ProductType> productType = dbContext.ProductTypes.OrderBy(pt => pt.id);
+
+            return Json(productType, JsonRequestBehavior.AllowGet);
         }
     }
 }

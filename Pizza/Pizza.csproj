@@ -143,6 +143,7 @@
     <Compile Include="Models\DBContext.cs" />
     <Compile Include="Models\DBEntities\Measure.cs" />
     <Compile Include="Models\DBEntities\Product.cs" />
+    <Compile Include="Models\DBEntities\ProductType.cs" />
     <Compile Include="Models\DBEntities\User.cs" />
     <Compile Include="Models\DBEntities\UserAddress.cs" />
     <Compile Include="Models\DBEntities\UserTelephone.cs" />

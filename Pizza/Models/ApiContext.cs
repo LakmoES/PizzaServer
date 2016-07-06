@@ -24,6 +24,8 @@ namespace Pizza.Models
 
             Apis.Add(new API { requireToken = false, url = "Product/GetPage", type = "GET", parameters = "int page [Номер страницы], int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Постраничный вывод товаров. Категорию можно не указывать.", returns = "JsonArray/bad argument" });
             Apis.Add(new API { requireToken = false, url = "Product/Pages", type = "GET", parameters = "int pageSize [Количество товаров на странице], int category [id категории товаров]", description = "Количество страниц с товаром, если на каждой странице pageSize товаров. Категорию можно не указывать.", returns = "number/bad argument" });
+            Apis.Add(new API { requireToken = false, url = "Product/GetCategoryName", type = "GET", parameters = "int category [id категории товаров]", description = "Возвращает имя категории по ее id.", returns = "Json/bad argument" });
+            Apis.Add(new API { requireToken = false, url = "Product/GetCategoryList", type = "GET", parameters = "-", description = "Список всех категорий товаров.", returns = "JsonArray" });
         }
     }
 }

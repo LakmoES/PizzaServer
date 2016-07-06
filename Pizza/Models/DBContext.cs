@@ -22,6 +22,7 @@ namespace Pizza.Models
             modelBuilder.Entity<UserAddress>().ToTable("useraddress", schemaName);
             modelBuilder.Entity<Product>().ToTable("product", schemaName);
             modelBuilder.Entity<Measure>().ToTable("measure", schemaName);
+            modelBuilder.Entity<ProductType>().ToTable("producttype", schemaName);
         }
 
         public DbSet<User> Users { get; set; }
@@ -30,6 +31,7 @@ namespace Pizza.Models
         public DbSet<UserAddress> UserAddress { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Measure> Measures { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {
