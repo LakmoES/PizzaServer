@@ -20,12 +20,14 @@ namespace Pizza.Models
             modelBuilder.Entity<Token>().ToTable("token", schemaName);
             modelBuilder.Entity<UserTelephone>().ToTable("usertelephone", schemaName);
             modelBuilder.Entity<UserAddress>().ToTable("useraddress", schemaName);
+            modelBuilder.Entity<Product>().ToTable("product", schemaName);
         }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Token> Tokens { get; set; }
         public DbSet<UserTelephone> UserTelephones { get; set; }
         public DbSet<UserAddress> UserAddress { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {
