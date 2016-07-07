@@ -91,7 +91,6 @@ namespace Pizza.Models.Auth
         private void RemoveFromQue(Token token)
         {
             List<Token> tempList = tokenQue.ToList();
-            //int index = employeeList.FindIndex(employee => employee.LastName.Equals(somename, StringComparison.Ordinal));
             var tokenIndex = tempList.FindIndex(t => t.hash.Equals(token.hash, StringComparison.Ordinal));
             if (tokenIndex != -1)
                 tempList.RemoveAt(tokenIndex);

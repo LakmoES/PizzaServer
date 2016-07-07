@@ -74,5 +74,30 @@ namespace Pizza.Controllers
 
             return Json(productType, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetByName(string name, int page = -1, int pageSize = -1)
+        {
+            if (name == null || page < 1 || pageSize < 1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            var query = dbContext.Products.Where(p => p.title.Contains(name));
+
+            var model = query.OrderBy(p => p.id).Skip((page - 1) * pageSize).Take(pageSize).Join(
+                dbContext.Measures,
+                p => p.measure,
+                m => m.id,
+                (p, m) => new
+                {
+                    id = p.id,
+                    title = p.title,
+                    measure = m.title,
+                    category = p.type,
+                    cost = p.cost,
+                    available = p.available,
+                    advertising = p.advertising
+                }
+                ).ToList();
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
     }
 }
