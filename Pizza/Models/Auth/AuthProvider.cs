@@ -29,11 +29,25 @@ namespace Pizza.Models.Auth
         {
             var token = tokenCreator.Create(userID, ip, tokenLifetime);
 
-            RemoveOldToken(dbContext, userID);
+            //RemoveTokensByUserID(dbContext, userID);
 
             authContext.Add(dbContext, token);
 
             return token;
+        }
+        public void DeleteToken(DBContext dbContext, string tokenHash, bool deleteAllSessions = false)
+        {
+            if (!CheckToken(dbContext, tokenHash))
+                return;
+
+            var token = dbContext.Tokens.Find(tokenHash);
+            if (!deleteAllSessions)
+                authContext.Remove(dbContext, token);
+            else
+            {
+                if (token != null)
+                    authContext.Remove(dbContext, token.user);
+            }
         }
 
         public bool CheckToken(DBContext dbContext, string tokenHash)
@@ -54,12 +68,6 @@ namespace Pizza.Models.Auth
                 return null;
 
             return CreateToken(dbContext, oldToken.user, ip, tokenLifetime);
-        }
-
-        private static void RemoveOldToken(DBContext dbContext, int userID)
-        {
-            dbContext.Tokens.RemoveRange(dbContext.Tokens.Where(x => x.user == userID));
-            dbContext.SaveChanges();
         }
     }
 }

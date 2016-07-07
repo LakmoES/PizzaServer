@@ -63,12 +63,45 @@ namespace Pizza.Models.Auth
                     return false;
             }
         }
+        public void Remove(DBContext dbContext, Token token)
+        {
+            if (token == null)
+                return;
+
+            if (dbContext.Tokens.Find(token.hash) != null)
+                RemoveFromDB(dbContext, token);
+            RemoveFromQue(token);
+        }
+        public void Remove(DBContext dbContext, int userID)
+        {
+            RemoveFromDB(dbContext, userID);
+            RemoveFromQue(userID);
+        }
         private void RemoveFromDB(DBContext dbContext, Token token)
         {
-            //dbContext.Tokens.Remove(token.hash);
             dbContext.Tokens.Attach(token);
             dbContext.Tokens.Remove(token);
             dbContext.SaveChanges();
+        }
+        private void RemoveFromDB(DBContext dbContext, int userID)
+        {
+            dbContext.Tokens.RemoveRange(dbContext.Tokens.Where(t => t.user == userID));
+            dbContext.SaveChanges();
+        }
+        private void RemoveFromQue(Token token)
+        {
+            List<Token> tempList = tokenQue.ToList();
+            //int index = employeeList.FindIndex(employee => employee.LastName.Equals(somename, StringComparison.Ordinal));
+            var tokenIndex = tempList.FindIndex(t => t.hash.Equals(token.hash, StringComparison.Ordinal));
+            if (tokenIndex != -1)
+                tempList.RemoveAt(tokenIndex);
+            tokenQue = new Queue<Token>(tempList);
+        }
+        private void RemoveFromQue(int userID)
+        {
+            List<Token> tempList = tokenQue.ToList();
+            tempList.RemoveAll(t => t.user == userID);
+            tokenQue = new Queue<Token>(tempList);
         }
         private void AddToQue(Token token)
         {

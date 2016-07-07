@@ -34,6 +34,16 @@ namespace Pizza.Controllers
 
             return Json("false", JsonRequestBehavior.AllowGet);
         }
+        public JsonResult Logout(string token, int allSessions = 0)
+        {
+            if (!AuthProvider.Instance.CheckToken(dbContext, token))
+                return Json("wrong token", JsonRequestBehavior.AllowGet);
+
+            bool deleteAllSessions = allSessions == 1;
+            AuthProvider.Instance.DeleteToken(dbContext, token, deleteAllSessions);
+
+            return Json("ok", JsonRequestBehavior.AllowGet);
+        }
 
         //[HttpPost]
         public JsonResult GetNewToken(string token)
@@ -79,7 +89,7 @@ namespace Pizza.Controllers
                             dbContext.SaveChanges();
                         }
                         catch (System.Data.SqlClient.SqlException sEx) { errors.Add(new Error { error = "Ошибка БД. " + sEx.Message }); }
-                        catch (Exception) { errors.Add(new Error { error = "Неизвестная ошибка БД" }); }
+                        //catch (Exception) { errors.Add(new Error { error = "Неизвестная ошибка БД" }); }
                     }
                 }
             }
@@ -116,7 +126,7 @@ namespace Pizza.Controllers
                         dbContext.SaveChanges();
                     }
                     catch (System.Data.SqlClient.SqlException sEx) { errors.Add(new Error { error = "Ошибка БД. " + sEx.Message }); }
-                    catch (Exception) { errors.Add(new Error { error = "Неизвестная ошибка БД" }); }
+                    //catch (Exception) { errors.Add(new Error { error = "Неизвестная ошибка БД" }); }
                 }
             }
 
