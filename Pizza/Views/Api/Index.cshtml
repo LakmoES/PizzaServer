@@ -54,7 +54,7 @@
                     <tr>
                         <td><a href="@a.url">@a.url</a></td>
                         <td>@a.type</td>
-                        <td>@a.requireToken</td>
+                        <td><b>@if (a.requireToken) { @Html.Raw("+"); } else { @Html.Raw("-");}</b></td>
                         <td>@a.returns</td>
                         <td>@a.parameters</td>
                         <td>@a.description</td>
