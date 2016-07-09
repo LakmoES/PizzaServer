@@ -67,6 +67,8 @@ namespace Pizza.Models.Auth
             if (oldToken == null)
                 return null;
 
+            authContext.Remove(dbContext, oldToken);
+
             return CreateToken(dbContext, oldToken.user, ip, tokenLifetime);
         }
     }
