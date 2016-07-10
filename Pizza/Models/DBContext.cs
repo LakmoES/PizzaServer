@@ -23,6 +23,7 @@ namespace Pizza.Models
             modelBuilder.Entity<Product>().ToTable("product", schemaName);
             modelBuilder.Entity<Measure>().ToTable("measure", schemaName);
             modelBuilder.Entity<ProductType>().ToTable("producttype", schemaName);
+            modelBuilder.Entity<ShoppingCart>().ToTable("shoppingcart", schemaName);
         }
 
         public DbSet<User> Users { get; set; }
@@ -32,6 +33,7 @@ namespace Pizza.Models
         public DbSet<Product> Products { get; set; }
         public DbSet<Measure> Measures { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {

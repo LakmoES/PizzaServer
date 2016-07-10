@@ -130,6 +130,7 @@
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -144,6 +145,7 @@
     <Compile Include="Models\DBEntities\Measure.cs" />
     <Compile Include="Models\DBEntities\Product.cs" />
     <Compile Include="Models\DBEntities\ProductType.cs" />
+    <Compile Include="Models\DBEntities\ShoppingCart.cs" />
     <Compile Include="Models\DBEntities\User.cs" />
     <Compile Include="Models\DBEntities\UserAddress.cs" />
     <Compile Include="Models\DBEntities\UserTelephone.cs" />
@@ -170,6 +172,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Product\" />
+    <Folder Include="Views\ShopCart\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
