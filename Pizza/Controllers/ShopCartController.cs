@@ -135,5 +135,13 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        public JsonResult MakeOrder(string token)
+        {
+            if (!AuthProvider.Instance.CheckToken(dbContext, token))
+                return Json("wrong token", JsonRequestBehavior.AllowGet);
+
+            int userID = dbContext.Tokens.Find(token).user;
+            return Json("", JsonRequestBehavior.AllowGet); //todo: доделать метод. найти среди всех товаров валидные и заказать
+        }
     }
 }
