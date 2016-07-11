@@ -8,7 +8,7 @@ namespace Pizza.Models.DBEntities
 {
     public class Bill
     {
-        //"id" "client" "status" "promocode" "delivery" "staff" "date"
+        //"id" "client" "status" "promocode" "delivery" "staff" "date" "cost"
         [Key]
         public int id { set; get; }
         public int client { set; get; }
@@ -17,5 +17,6 @@ namespace Pizza.Models.DBEntities
         public int? delivery { set; get; }
         public int? staff { set; get; }
         public DateTime date { set; get; }
+        public Decimal cost { set; get; }
     }
 }

@@ -207,9 +207,20 @@ namespace Pizza.Controllers
             dbContext.Entry(bill).GetDatabaseValues();
 
             var productList = products.ToList();
+            Decimal billCost = 0;
+            int promoDiscount = promo == null ? 0 : promo.discount;
             var orderedProducts = new List<OrderedProduct>();
             foreach (var p in productList)
+            {
                 orderedProducts.Add(new OrderedProduct { bill = bill.id, product = p.id, amount = p.amount });
+                billCost += p.advertising == 1 ? p.cost * p.amount : (p.cost * p.amount) / (decimal)100.0 * (100 - promoDiscount);
+            }
+            dbContext.Bills.Attach(bill);
+            var entry = dbContext.Entry(bill);
+
+            entry.Property(e => e.cost).IsModified = true;
+            entry.Entity.cost = billCost;
+
             dbContext.OrderedProducts.AddRange(orderedProducts);
             dbContext.ShoppingCarts.RemoveRange(dbContext.ShoppingCarts.Where(sc => sc.user == userID));
             dbContext.SaveChanges();
