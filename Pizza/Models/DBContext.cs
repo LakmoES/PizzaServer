@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using Pizza.Models.DBEntities;
 using Pizza.Models.Auth.DBEntities;
+using System.Data.Entity.Core.Objects;
 
 namespace Pizza.Models
 {
@@ -28,6 +29,7 @@ namespace Pizza.Models
             modelBuilder.Entity<PromoCode>().ToTable("promocode", schemaName);
             modelBuilder.Entity<Bill>().ToTable("bill", schemaName);
             modelBuilder.Entity<OrderedProduct>().ToTable("orderedproduct", schemaName);
+            modelBuilder.Entity<Delivery>().ToTable("delivery", schemaName);
         }
 
         public DbSet<User> Users { get; set; }
@@ -42,6 +44,7 @@ namespace Pizza.Models
         public DbSet<PromoCode> PromoCodes { get; set; }
         public DbSet<Bill> Bills { get; set; }
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
+        public DbSet<Delivery> Deliveries { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {

@@ -14,8 +14,8 @@ namespace Pizza.Models.DBEntities
         public int client { set; get; }
         public int status { set; get; }
         public string promocode { set; get; }
-        public int delivery { set; get; }
-        public int staff { set; get; }
+        public int? delivery { set; get; }
+        public int? staff { set; get; }
         public DateTime date { set; get; }
     }
 }

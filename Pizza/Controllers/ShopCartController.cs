@@ -135,13 +135,75 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
-        public JsonResult MakeOrder(string token)
+        public JsonResult MakeOrder(string token, string promocode, int addressID = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
                 return Json("wrong token", JsonRequestBehavior.AllowGet);
 
+            var promo = dbContext.PromoCodes.Find(promocode);
+            if (promocode != null && promo == null)
+                return Json("bad promocode", JsonRequestBehavior.AllowGet);
+            if (promo != null)
+                if (promo.active == 0)
+                    return Json("inactive promocode", JsonRequestBehavior.AllowGet);
+
             int userID = dbContext.Tokens.Find(token).user;
-            return Json("", JsonRequestBehavior.AllowGet); //todo: доделать метод. найти среди всех товаров валидные и заказать
+
+            var address = dbContext.UserAddress.FirstOrDefault(a => a.id == addressID && a.user == userID);
+            if (addressID != -1 && address == null)
+                return Json("bad address", JsonRequestBehavior.AllowGet);
+
+            var products = dbContext.ShoppingCarts.Where(sc => sc.user == userID)
+                .Join(
+                dbContext.Products,
+                sc => sc.product,
+                p => p.id,
+                (sc, p) => new
+                {
+                    p.id,
+                    p.title,
+                    p.cost,
+                    p.available,
+                    p.advertising,
+                    sc.amount
+                }
+                );
+            if (products.Count() <= 0)
+                return Json("empty shopping cart order", JsonRequestBehavior.AllowGet);
+            if (products.Count(p => p.available != 1) > 0)
+                return Json("attempt to order unavailable", JsonRequestBehavior.AllowGet);
+
+            Delivery delivery = null;
+            if (address != null)
+            {
+                delivery = new Delivery { address = address.id };
+                dbContext.Deliveries.Add(delivery);
+                dbContext.SaveChanges();
+                dbContext.Entry(delivery).GetDatabaseValues();
+            }
+
+            Bill bill = new Bill
+            {
+                client = userID,
+                status = 1,
+                promocode = promo == null ? null : promo.code,
+                delivery = delivery == null ? null : (int?)delivery.id,
+                staff = null,
+                date = DateTime.Now
+            };
+            dbContext.Bills.Add(bill);
+            dbContext.SaveChanges();
+            dbContext.Entry(bill).GetDatabaseValues();
+
+            var productList = products.ToList();
+            var orderedProducts = new List<OrderedProduct>();
+            foreach (var p in productList)
+                orderedProducts.Add(new OrderedProduct { bill = bill.id, product = p.id, amount = p.amount });
+            dbContext.OrderedProducts.AddRange(orderedProducts);
+            dbContext.ShoppingCarts.RemoveRange(dbContext.ShoppingCarts.Where(sc => sc.user == userID));
+            dbContext.SaveChanges();
+
+            return Json(new { orderNO = bill.id }, JsonRequestBehavior.AllowGet);
         }
     }
 }
