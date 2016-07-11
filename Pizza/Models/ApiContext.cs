@@ -40,6 +40,10 @@ namespace Pizza.Models
             Apis.Add(new API { requireToken = true, url = "ShopCart/Clear", type = "POST", parameters = "-", description = "Очистка корзины текущего пользователя.", returns = "ok/wrong token" });
             Apis.Add(new API { requireToken = true, url = "ShopCart/Show", type = "POST", parameters = "string promocode [Промокод]", description = "Список товаров в корзине текущего пользователя.", returns = "JsonArray/wrong token" });
             Apis.Add(new API { requireToken = true, url = "ShopCart/MakeOrder", type = "POST", parameters = "string promocode [Промокод], int addressID [ID адреса доставки]", description = "Сделать заказ товаров из корзины.", returns = "Json/wrong token/bad promocode/bad address/attempt to order unavailable" });
+
+            Apis.Add(new API { requireToken = true, url = "Order/GetPage", type = "POST", parameters = "int page [Номер страницы], int pageSize [Количество заказов на странице]", description = "Постраничный вывод заказов текущего пользователя.", returns = "JsonArray/wrong token/bad argument" });
+            Apis.Add(new API { requireToken = true, url = "Order/Pages", type = "POST", parameters = "int pageSize [Количество заказов на странице]", description = "Количество страниц с заказами, если на каждой странице pageSize заказов.", returns = "number/wrong token/bad argument" });
+            Apis.Add(new API { requireToken = true, url = "Order/Products", type = "POST", parameters = "int orderNO [ID заказа]", description = "Вывод товаров из определенного заказа текущего пользователя.", returns = "JsonArray/wrong token/bad argument" });
         }
     }
 }

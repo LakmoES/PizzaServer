@@ -212,8 +212,9 @@ namespace Pizza.Controllers
             var orderedProducts = new List<OrderedProduct>();
             foreach (var p in productList)
             {
-                orderedProducts.Add(new OrderedProduct { bill = bill.id, product = p.id, amount = p.amount });
-                billCost += p.advertising == 1 ? p.cost * p.amount : (p.cost * p.amount) / (decimal)100.0 * (100 - promoDiscount);
+                decimal productCost = p.advertising == 1 ? p.cost * p.amount : (p.cost * p.amount) / (decimal)100.0 * (100 - promoDiscount);
+                orderedProducts.Add(new OrderedProduct { bill = bill.id, product = p.id, amount = p.amount, cost = productCost });
+                billCost += productCost;
             }
             dbContext.Bills.Attach(bill);
             var entry = dbContext.Entry(bill);

@@ -13,5 +13,6 @@ namespace Pizza.Models.DBEntities
         public int bill { set; get; }
         public int product { set; get; }
         public int amount { set; get; }
+        public Decimal cost { set; get; }
     }
 }
