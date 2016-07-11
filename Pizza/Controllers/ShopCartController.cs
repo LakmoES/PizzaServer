@@ -17,10 +17,21 @@ namespace Pizza.Controllers
         {
             return null;
         }
-        public JsonResult Show(string token)
+        public JsonResult Show(string token, string promocode)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
                 return Json("wrong token", JsonRequestBehavior.AllowGet);
+
+            var promo = dbContext.PromoCodes.Find(promocode);
+            if (promocode != null && promo == null)
+                return Json("bad promocode", JsonRequestBehavior.AllowGet);
+            if (promo != null)
+            {
+                if (promo.active == 0)
+                    return Json("inactive promocode", JsonRequestBehavior.AllowGet);
+            }
+            else
+                promo = new PromoCode { discount = 0 };
 
             int userID = dbContext.Tokens.Find(token).user;
             var shoppingCarts = dbContext.ShoppingCarts.Where(sc => sc.user == userID).Select(sc => new { sc.product, sc.amount })
@@ -53,10 +64,10 @@ namespace Pizza.Controllers
                     cost = sc.cost,
                     available = sc.available,
                     advertising = sc.advertising,
-                    amount = sc.amount
+                    amount = sc.amount,
+                    resultPrice = sc.advertising == 0 ? (sc.cost * sc.amount) / (decimal)100.0 * (100 - promo.discount) : sc.cost * sc.amount
                 }
-                )
-                .ToList();
+                ).ToList();
 
             return Json(shoppingCarts, JsonRequestBehavior.AllowGet);
         }
