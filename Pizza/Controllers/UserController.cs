@@ -182,6 +182,16 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetInfo(string token)
+        {
+            if (!AuthProvider.Instance.CheckToken(dbContext, token))
+                return Json("wrong token", JsonRequestBehavior.AllowGet);
+
+            var t = dbContext.Tokens.Find(token);
+            var user = dbContext.Users.Where(u => u.id == t.user).Select(u => new { username = u.username, name = u.name, surname = u.surname, email = u.email, guest = u.guest }).FirstOrDefault();
+
+            return Json(user, JsonRequestBehavior.AllowGet);
+        }
     }
 }
  
