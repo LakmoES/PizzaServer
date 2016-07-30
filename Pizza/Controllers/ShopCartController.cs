@@ -146,9 +146,9 @@ namespace Pizza.Controllers
 
             var foundShoppingCartProduct = dbContext.ShoppingCarts.FirstOrDefault(sc => sc.user == userID && sc.product == productID);
             if (foundShoppingCartProduct == null)
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
             else
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json(foundShoppingCartProduct.amount, JsonRequestBehavior.AllowGet);
         }
         public JsonResult Clear(string token)
         {
