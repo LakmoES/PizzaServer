@@ -135,6 +135,21 @@ namespace Pizza.Controllers
             dbContext.SaveChanges();
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ProductExists(string token, int productID = -1)
+        {
+            if (!AuthProvider.Instance.CheckToken(dbContext, token))
+                return Json("wrong token", JsonRequestBehavior.AllowGet);
+            if (productID == -1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            int userID = dbContext.Tokens.Find(token).user;
+
+            var foundShoppingCartProduct = dbContext.ShoppingCarts.FirstOrDefault(sc => sc.user == userID && sc.product == productID);
+            if (foundShoppingCartProduct == null)
+                return Json(false, JsonRequestBehavior.AllowGet);
+            else
+                return Json(true, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult Clear(string token)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
