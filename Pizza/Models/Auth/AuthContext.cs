@@ -79,8 +79,11 @@ namespace Pizza.Models.Auth
         }
         private void RemoveFromDB(DBContext dbContext, Token token)
         {
-            dbContext.Tokens.Attach(token);
-            dbContext.Tokens.Remove(token);
+            var foundToken = dbContext.Tokens.FirstOrDefault(x => x.hash == token.hash);
+            if (foundToken == null)
+                return;
+            dbContext.Tokens.Attach(foundToken);
+            dbContext.Tokens.Remove(foundToken);
             dbContext.SaveChanges();
         }
         private void RemoveFromDB(DBContext dbContext, int userID)

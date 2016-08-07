@@ -14,7 +14,7 @@ namespace Pizza.Controllers
     {
         private DBContext dbContext = new DBContext();
         private Random random = new Random();
-        private int tokenLifetime = 60;
+        private int tokenLifetime = 1;
         private string guestPrefix = "Guest";
         // GET: Auth
         public JsonResult Login(string username, string password)
