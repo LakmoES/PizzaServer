@@ -160,6 +160,9 @@ namespace Pizza.Controllers
                 {
                     errors.Add(new Error { error = "Пользователь с таким именем уже существует" });
                 }
+                foundUser = dbContext.Users.Where(x => x.email == updatedUser.email && x.id != updatedUser.id).ToList();
+                if (foundUser.Count > 0)
+                    errors.Add(new Error { error = "Пользователь с таким email адресом уже существует" });
                 else
                 {
                     var user = dbContext.Users.Find(userID);
