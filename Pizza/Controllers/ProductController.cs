@@ -99,5 +99,16 @@ namespace Pizza.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult PagesByName(string name, int pageSize = -1)
+        {
+            if (pageSize < 1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            var query = dbContext.Products.Where(p => p.title.Contains(name));
+
+            int totalPages = (int)(Math.Ceiling(query.Count() / (decimal)pageSize));
+
+            return Json(totalPages, JsonRequestBehavior.AllowGet);
+        }
     }
 }
