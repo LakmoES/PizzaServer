@@ -101,7 +101,7 @@ namespace Pizza.Controllers
         }
         public JsonResult PagesByName(string name, int pageSize = -1)
         {
-            if (pageSize < 1)
+            if (pageSize < 1 || name == null)
                 return Json("bad argument", JsonRequestBehavior.AllowGet);
 
             var query = dbContext.Products.Where(p => p.title.Contains(name));
