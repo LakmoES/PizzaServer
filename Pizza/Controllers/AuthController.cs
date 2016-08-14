@@ -1,4 +1,5 @@
-﻿using Pizza.Models;
+﻿using Pizza.Filters;
+using Pizza.Models;
 using Pizza.Models.Auth;
 using Pizza.Models.DBEntities;
 using Pizza.Validators;
@@ -17,6 +18,7 @@ namespace Pizza.Controllers
         private int tokenLifetime = 60;
         private string guestPrefix = "Guest";
         // GET: Auth
+        [ExceptionLogger]
         public JsonResult Login(string username, string password)
         {
             if (username == null || password == null)
@@ -34,6 +36,7 @@ namespace Pizza.Controllers
 
             return Json("false", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult Logout(string token, int allSessions = 0)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -46,6 +49,7 @@ namespace Pizza.Controllers
         }
 
         //[HttpPost]
+        [ExceptionLogger]
         public JsonResult GetNewToken(string token)
         {
             if (token == null)
@@ -58,6 +62,7 @@ namespace Pizza.Controllers
             var jsonToken = new { token_hash = newToken.hash, lifetime = tokenLifetime };
             return Json(jsonToken, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult RegisterUser(string username, string password, string email, string name, string surname)
         {
             User user = new User();
@@ -100,7 +105,7 @@ namespace Pizza.Controllers
             else
                 return Json("ok", JsonRequestBehavior.AllowGet);
         }
-
+        [ExceptionLogger]
         public JsonResult NewGuest()
         {
             User guest = new User();
@@ -137,6 +142,7 @@ namespace Pizza.Controllers
             else
                 return Json(new { username = guest.username, password = guest.password }, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult NoMoreGuest(string token, string username, string password, string email, string name, string surname)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))

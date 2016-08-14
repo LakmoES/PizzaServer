@@ -1,4 +1,5 @@
-﻿using Pizza.Models;
+﻿using Pizza.Filters;
+using Pizza.Models;
 using Pizza.Models.Auth;
 using Pizza.Models.DBEntities;
 using System;
@@ -17,6 +18,7 @@ namespace Pizza.Controllers
         {
             return null;
         }
+        [ExceptionLogger]
         public JsonResult Show(string token, string promocode)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -71,6 +73,7 @@ namespace Pizza.Controllers
 
             return Json(shoppingCarts, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult AddProduct(string token, int productID = -1, int amount = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -100,6 +103,7 @@ namespace Pizza.Controllers
             else
                 return Json("product not found", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult RemoveProduct(string token, int productID = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -113,6 +117,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult EditProduct(string token, int productID = -1, int amount = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -135,6 +140,7 @@ namespace Pizza.Controllers
             dbContext.SaveChanges();
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult ProductExists(string token, int productID = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -150,6 +156,7 @@ namespace Pizza.Controllers
             else
                 return Json(foundShoppingCartProduct.amount, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult Clear(string token)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -161,6 +168,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult MakeOrder(string token, string promocode, int addressID = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))

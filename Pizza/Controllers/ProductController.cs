@@ -56,6 +56,7 @@ namespace Pizza.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult Pages(int pageSize = -1, int category = -1)
         {
             if (pageSize < 1)
@@ -68,6 +69,7 @@ namespace Pizza.Controllers
 
             return Json(totalPages, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetCategoryName(int category = -1)
         {
             if (category < 1)
@@ -79,12 +81,14 @@ namespace Pizza.Controllers
 
             return Json(new { name = productType.title }, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetCategoryList()
         {
             IEnumerable<ProductType> productType = dbContext.ProductTypes.OrderBy(pt => pt.id);
 
             return Json(productType, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetByName(string name, int page = -1, int pageSize = -1)
         {
             if (name == null || page < 1 || pageSize < 1)
@@ -110,6 +114,7 @@ namespace Pizza.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult PagesByName(string name, int pageSize = -1)
         {
             if (pageSize < 1 || name == null)

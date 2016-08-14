@@ -1,4 +1,5 @@
-﻿using Pizza.Models;
+﻿using Pizza.Filters;
+using Pizza.Models;
 using Pizza.Models.Auth;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace Pizza.Controllers
         {
             return null;
         }
+        [ExceptionLogger]
         public JsonResult GetPage(string token, int page = -1, int pageSize = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -48,6 +50,7 @@ namespace Pizza.Controllers
 
             return Json(model, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult Pages(string token, int pageSize = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -62,6 +65,7 @@ namespace Pizza.Controllers
 
             return Json(totalPages, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult Products(string token, int orderNO = -1)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))

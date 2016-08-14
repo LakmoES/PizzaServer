@@ -7,6 +7,7 @@ using Pizza.Models;
 using Pizza.Models.DBEntities;
 using Pizza.Models.Auth;
 using Pizza.Validators;
+using Pizza.Filters;
 
 namespace Pizza.Controllers
 {
@@ -19,6 +20,7 @@ namespace Pizza.Controllers
             //return View();
             return null;
         }
+        [ExceptionLogger]
         public JsonResult Edit(string token, string password, string email, string name, string surname)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -60,6 +62,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult AddTel(string token, string tel)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -72,6 +75,7 @@ namespace Pizza.Controllers
             dbContext.SaveChanges();
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult AddAddress(string token, string address)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -84,6 +88,7 @@ namespace Pizza.Controllers
             dbContext.SaveChanges();
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetTelList(string token)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -94,6 +99,7 @@ namespace Pizza.Controllers
 
             return Json(telList, JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetAddressList(string token)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -104,6 +110,8 @@ namespace Pizza.Controllers
 
             return Json(addressList, JsonRequestBehavior.AllowGet);
         }
+
+        [ExceptionLogger]
         public JsonResult RemoveTel(string token, int? telID)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -117,6 +125,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult RemoveAddress(string token, int? addressID)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -130,6 +139,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult EditTel(string token, int? telID, string tel)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -156,6 +166,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult EditAddress(string token, int? addressID, string address)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
@@ -182,6 +193,7 @@ namespace Pizza.Controllers
 
             return Json("ok", JsonRequestBehavior.AllowGet);
         }
+        [ExceptionLogger]
         public JsonResult GetInfo(string token)
         {
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
