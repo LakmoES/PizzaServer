@@ -16,7 +16,7 @@ namespace Pizza.Controllers
         {
             return null;
         }
-        public JsonResult GetPage(int page = -1, int pageSize = -1, int category = -1)
+        public JsonResult GetPage(char orderBy = '0', int desc = 0, int page = -1, int pageSize = -1, int category = -1)
         {
             if (pageSize < 1 || page < 1)
                 return Json("bad argument", JsonRequestBehavior.AllowGet);
@@ -27,7 +27,15 @@ namespace Pizza.Controllers
             // в LinqToEntities перед Skip() надо вызывать OrderBy()
             // ToList() надо вызывать именно здесь, чтобы материализовать
             // только нужные данные
-            var model = query.OrderBy(o => o.id).Skip((page - 1) * pageSize).Take(pageSize).Join(
+            IOrderedQueryable<Product> ordered;
+            switch(orderBy)
+            {
+                case 'c': ordered = desc == 0 ?  query.OrderBy(o => o.cost) : query.OrderByDescending(o => o.cost); break;
+                case 't': ordered = desc == 0 ? query.OrderBy(o => o.type) : query.OrderByDescending(o => o.type); break;
+                case 'a': ordered = desc == 0 ? query.OrderBy(o => o.advertising) : query.OrderByDescending(o => o.advertising); break;
+                default: ordered = desc == 0 ? query.OrderBy(o => o.id) : query.OrderByDescending(o => o.id); break;
+            }
+            var model = ordered.Skip((page - 1) * pageSize).Take(pageSize).Join(
                 dbContext.Measures, 
                 p => p.measure,
                 m => m.id,
