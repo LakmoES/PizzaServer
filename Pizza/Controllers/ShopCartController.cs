@@ -215,7 +215,7 @@ namespace Pizza.Controllers
                 promocode = promo == null ? null : promo.code,
                 delivery = delivery == null ? null : (int?)delivery.id,
                 staff = null,
-                date = DateTime.Now
+                date = DateTime.UtcNow
             };
             dbContext.Bills.Add(bill);
             dbContext.SaveChanges();

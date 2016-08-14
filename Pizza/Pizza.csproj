@@ -136,6 +136,7 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\ExceptionLoggerAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -149,6 +150,7 @@
     <Compile Include="Models\DBEntities\Bill.cs" />
     <Compile Include="Models\DBEntities\BillStatus.cs" />
     <Compile Include="Models\DBEntities\Delivery.cs" />
+    <Compile Include="Models\DBEntities\ExceptionDetail.cs" />
     <Compile Include="Models\DBEntities\Measure.cs" />
     <Compile Include="Models\DBEntities\OrderedProduct.cs" />
     <Compile Include="Models\DBEntities\Product.cs" />

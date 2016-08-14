@@ -16,5 +16,6 @@ namespace Pizza.Models.DBEntities
         public string name { set; get; }
         public string surname { set; get; }
         public int guest { set; get; }
+        public DateTime registrationdate { set; get; }
     }
 }

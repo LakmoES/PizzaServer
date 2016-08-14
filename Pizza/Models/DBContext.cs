@@ -17,6 +17,9 @@ namespace Pizza.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema(schemaName);
+
+            modelBuilder.Entity<ExceptionDetail>().ToTable("exceptiondetail", schemaName);
+
             modelBuilder.Entity<User>().ToTable("user", schemaName);
             modelBuilder.Entity<Token>().ToTable("token", schemaName);
             modelBuilder.Entity<UserTelephone>().ToTable("usertelephone", schemaName);
@@ -32,6 +35,7 @@ namespace Pizza.Models
             modelBuilder.Entity<Delivery>().ToTable("delivery", schemaName);
         }
 
+        public DbSet<ExceptionDetail> ExceptionDetails { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Token> Tokens { get; set; }
         public DbSet<UserTelephone> UserTelephones { get; set; }

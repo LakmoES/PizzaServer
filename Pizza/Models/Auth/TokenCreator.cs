@@ -12,7 +12,7 @@ namespace Pizza.Models.Auth
         {
             Token token = new Token();
             token.ip = ip;
-            token.createdate = DateTime.Now;
+            token.createdate = DateTime.UtcNow;
             token.expdate = token.createdate;
             token.expdate = token.expdate.AddMinutes(tokenLifetime);
             token.user = userID;

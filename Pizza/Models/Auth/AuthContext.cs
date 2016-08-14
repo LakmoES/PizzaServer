@@ -35,7 +35,7 @@ namespace Pizza.Models.Auth
 
             if (foundToken != null) //найден в очереди
             {
-                if (foundToken.expdate < DateTime.Now) //недействителен
+                if (foundToken.expdate < DateTime.UtcNow) //недействителен
                 {
                     RemoveFromDB(dbContext, foundToken);
                     return false;
@@ -48,7 +48,7 @@ namespace Pizza.Models.Auth
                 var token = dbContext.Tokens.Find(tokenHash);
                 if (token != null) //найден в БД
                 {
-                    if (token.expdate > DateTime.Now) //действителен
+                    if (token.expdate > DateTime.UtcNow) //действителен
                     {
                         AddToQue(token);
                         return true;

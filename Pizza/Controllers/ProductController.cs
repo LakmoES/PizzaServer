@@ -1,4 +1,5 @@
-﻿using Pizza.Models;
+﻿using Pizza.Filters;
+using Pizza.Models;
 using Pizza.Models.DBEntities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Pizza.Controllers
         {
             return null;
         }
+
+        [ExceptionLogger]
         public JsonResult GetPage(char orderBy = '0', int desc = 0, int page = -1, int pageSize = -1, int category = -1)
         {
             if (pageSize < 1 || page < 1)

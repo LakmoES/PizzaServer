@@ -67,6 +67,7 @@ namespace Pizza.Controllers
             user.name = name;
             user.surname = surname;
             user.guest = 0;
+            user.registrationdate = DateTime.UtcNow;
 
             List<Error> errors;
             if (UserValidator.CheckAdditionUser(user, out errors))
@@ -109,6 +110,7 @@ namespace Pizza.Controllers
             guest.name = null;
             guest.surname = null;
             guest.guest = 1;
+            guest.registrationdate = DateTime.UtcNow;
 
             List<Error> errors;
             if (UserValidator.CheckAdditionGuest(guest, out errors))
