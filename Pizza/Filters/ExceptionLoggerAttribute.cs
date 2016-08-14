@@ -27,7 +27,7 @@ namespace Pizza.Filters
                 db.SaveChanges();
             }
 
-            filterContext.ExceptionHandled = true;
+            //filterContext.ExceptionHandled = true;
         }
     }
 }
