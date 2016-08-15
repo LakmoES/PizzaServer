@@ -186,6 +186,8 @@ namespace Pizza.Controllers
             var address = dbContext.UserAddress.FirstOrDefault(a => a.id == addressID && a.user == userID);
             if (addressID != -1 && address == null)
                 return Json("bad address", JsonRequestBehavior.AllowGet);
+            if (dbContext.UserTelephones.Count(t => t.user == userID) <= 0)
+                return Json("user hasn't any telnumber", JsonRequestBehavior.AllowGet);
 
             var products = dbContext.ShoppingCarts.Where(sc => sc.user == userID)
                 .Join(
