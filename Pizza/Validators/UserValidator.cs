@@ -33,9 +33,9 @@ namespace Pizza.Validators
                 checkFlag = false;
             }
             else
-                if (user.password.Length < 1)
+                if (user.password.Length < 6)
             {
-                errors.Add(new Error { error = "Пустой пароль недопустим" });
+                errors.Add(new Error { error = "Минимальная длина пароля 6 символов" });
                 checkFlag = false;
             }
 

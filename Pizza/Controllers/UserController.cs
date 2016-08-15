@@ -26,7 +26,7 @@ namespace Pizza.Controllers
             if (!AuthProvider.Instance.CheckToken(dbContext, token))
                 return Json("wrong token", JsonRequestBehavior.AllowGet);
             if (password == null && email == null && name == null && surname == null)
-                return Json("nothing to edit", JsonRequestBehavior.AllowGet);
+                return Json(new List<Error> { new Error { error = "Не указаны поля для редактирования." } }, JsonRequestBehavior.AllowGet);
 
             var user = dbContext.Users.Find(dbContext.Tokens.Find(token).user);
 
