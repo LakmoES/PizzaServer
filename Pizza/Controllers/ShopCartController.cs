@@ -5,7 +5,6 @@ using Pizza.Models.DBEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Pizza.Controllers
@@ -204,36 +203,18 @@ namespace Pizza.Controllers
                     sc.amount
                 }
                 );
-            if (products.Count() <= 0)
+            if (!products.Any())
                 return Json("empty shopping cart order", JsonRequestBehavior.AllowGet);
             if (products.Count(p => p.available != 1) > 0)
                 return Json("attempt to order unavailable", JsonRequestBehavior.AllowGet);
 
-            Delivery delivery = null;
-            if (address != null)
-            {
-                delivery = new Delivery { address = address.id };
-                dbContext.Deliveries.Add(delivery);
-                dbContext.SaveChanges();
-                dbContext.Entry(delivery).GetDatabaseValues();
-            }
+            Delivery delivery = CreateDeliveryIfNeed(address);
 
-            Bill bill = new Bill
-            {
-                client = userID,
-                status = 1,
-                promocode = promo == null ? null : promo.code,
-                delivery = delivery == null ? null : (int?)delivery.id,
-                staff = null,
-                date = DateTime.UtcNow
-            };
-            dbContext.Bills.Add(bill);
-            dbContext.SaveChanges();
-            dbContext.Entry(bill).GetDatabaseValues();
+            Bill bill = CreateBill(userID, promo, delivery);
 
             var productList = products.ToList();
-            Decimal billCost = 0;
-            int promoDiscount = promo == null ? 0 : promo.discount;
+            decimal billCost = 0;
+            int promoDiscount = promo?.discount ?? 0;
             var orderedProducts = new List<OrderedProduct>();
             foreach (var p in productList)
             {
@@ -249,6 +230,85 @@ namespace Pizza.Controllers
 
             dbContext.OrderedProducts.AddRange(orderedProducts);
             dbContext.ShoppingCarts.RemoveRange(dbContext.ShoppingCarts.Where(sc => sc.user == userID));
+            dbContext.SaveChanges();
+
+            return Json(new { orderNO = bill.id }, JsonRequestBehavior.AllowGet);
+        }
+
+        private Bill CreateBill(int userID, PromoCode promo, Delivery delivery)
+        {
+            Bill bill = new Bill
+            {
+                client = userID,
+                status = 1,
+                promocode = promo?.code,
+                delivery = delivery?.id,
+                staff = null,
+                date = DateTime.UtcNow
+            };
+            dbContext.Bills.Add(bill);
+            dbContext.SaveChanges();
+            dbContext.Entry(bill).GetDatabaseValues();
+            return bill;
+        }
+
+        private Delivery CreateDeliveryIfNeed(UserAddress address)
+        {
+            Delivery delivery = null;
+            if (address != null)
+            {
+                delivery = new Delivery {address = address.id};
+                dbContext.Deliveries.Add(delivery);
+                dbContext.SaveChanges();
+                dbContext.Entry(delivery).GetDatabaseValues();
+            }
+            return delivery;
+        }
+
+        [ExceptionLogger]
+        public JsonResult OrderProduct(string token, string promocode, int productID = -1, int amount = -1,
+            int addressID = -1)
+        {
+            if (!AuthProvider.Instance.CheckToken(dbContext, token))
+                return Json("wrong token", JsonRequestBehavior.AllowGet);
+            if (productID == -1 || amount == -1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            var promo = dbContext.PromoCodes.Find(promocode);
+            if (promocode != null && promo == null)
+                return Json("bad promocode", JsonRequestBehavior.AllowGet);
+            if (promo != null)
+                if (promo.active == 0)
+                    return Json("inactive promocode", JsonRequestBehavior.AllowGet);
+
+            int userID = dbContext.Tokens.Find(token).user;
+
+            var address = dbContext.UserAddress.FirstOrDefault(a => a.id == addressID && a.user == userID);
+            if (addressID != -1 && address == null)
+                return Json("bad address", JsonRequestBehavior.AllowGet);
+            if (dbContext.UserTelephones.Count(t => t.user == userID) <= 0)
+                return Json("user hasn't any telnumber", JsonRequestBehavior.AllowGet);
+
+            var foundProduct = dbContext.Products.Find(productID);
+            if (foundProduct == null)
+                return Json("product not found", JsonRequestBehavior.AllowGet);
+            if (foundProduct.available != 1)
+                return Json("attempt to order unavailable", JsonRequestBehavior.AllowGet);
+
+            Delivery delivery = CreateDeliveryIfNeed(address);
+
+            Bill bill = CreateBill(userID, promo, delivery);
+
+            int promoDiscount = promo?.discount ?? 0;
+            decimal productCost = foundProduct.advertising == 1 ? foundProduct.cost * amount : (foundProduct.cost * amount) / (decimal)100.0 * (100 - promoDiscount);
+
+            dbContext.Bills.Attach(bill);
+            var entry = dbContext.Entry(bill);
+
+            entry.Property(e => e.cost).IsModified = true;
+            entry.Entity.cost = productCost;
+
+            dbContext.OrderedProducts.Add(new OrderedProduct { amount = amount, bill = bill.id, cost = productCost, product = foundProduct.id });
             dbContext.SaveChanges();
 
             return Json(new { orderNO = bill.id }, JsonRequestBehavior.AllowGet);
