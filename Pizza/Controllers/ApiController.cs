@@ -19,5 +19,10 @@ namespace Pizza.Controllers
 
             return View();
         }
+
+        public JsonResult TestMethod()
+        {
+            return Json(Request.Url.Scheme + "://" + Request.Url.Host, JsonRequestBehavior.AllowGet);
+        }
     }
 }

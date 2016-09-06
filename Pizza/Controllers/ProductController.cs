@@ -139,9 +139,11 @@ namespace Pizza.Controllers
             if (foundProduct.image == null)
                 return Json("images are not set", JsonRequestBehavior.AllowGet);
 
+            string baseUrl = Request.Url.Scheme + "://" + Request.Url.Host;
+
             return Json(
                 dbContext.Images.Where(x => x.id == foundProduct.image)
-                .Select(x => new { x.small, x.medium, x.large }).First(), 
+                .Select(x => new { small = baseUrl + x.small, medium = baseUrl + x.medium, large = baseUrl + x.large }).First(), 
                 JsonRequestBehavior.AllowGet);
         }
     }
