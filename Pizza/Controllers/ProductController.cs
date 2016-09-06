@@ -39,7 +39,7 @@ namespace Pizza.Controllers
                 default: ordered = desc == 0 ? query.OrderBy(o => o.id) : query.OrderByDescending(o => o.id); break;
             }
             var model = ordered.Skip((page - 1) * pageSize).Take(pageSize).Join(
-                dbContext.Measures, 
+                dbContext.Measures,
                 p => p.measure,
                 m => m.id,
                 (p, m) => new
@@ -125,6 +125,24 @@ namespace Pizza.Controllers
             int totalPages = (int)(Math.Ceiling(query.Count() / (decimal)pageSize));
 
             return Json(totalPages, JsonRequestBehavior.AllowGet);
+        }
+
+        [ExceptionLogger]
+        public JsonResult GetImagesUrl(int productID = -1)
+        {
+            if (productID < 1)
+                return Json("bad argument", JsonRequestBehavior.AllowGet);
+
+            var foundProduct = dbContext.Products.Find(productID);
+            if (foundProduct == null)
+                return Json("bad product id", JsonRequestBehavior.AllowGet);
+            if (foundProduct.image == null)
+                return Json("images are not set", JsonRequestBehavior.AllowGet);
+
+            return Json(
+                dbContext.Images.Where(x => x.id == foundProduct.image)
+                .Select(x => new { x.small, x.medium, x.large }).First(), 
+                JsonRequestBehavior.AllowGet);
         }
     }
 }

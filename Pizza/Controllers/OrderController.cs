@@ -33,7 +33,7 @@ namespace Pizza.Controllers
                 dbContext.BillStatuses,
                 b => b.status,
                 bs => bs.id,
-                (b,bs) => new
+                (b, bs) => new
                 {
                     id = b.id,
                     status = bs.title,

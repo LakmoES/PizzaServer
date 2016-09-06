@@ -16,5 +16,6 @@ namespace Pizza.Models.DBEntities
         public Decimal cost { set; get; }
         public int available { set; get; }
         public int advertising { set; get; }
+        public int? image { set; get; }
     }
 }

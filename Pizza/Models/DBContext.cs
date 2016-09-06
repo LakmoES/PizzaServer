@@ -33,6 +33,7 @@ namespace Pizza.Models
             modelBuilder.Entity<Bill>().ToTable("bill", schemaName);
             modelBuilder.Entity<OrderedProduct>().ToTable("orderedproduct", schemaName);
             modelBuilder.Entity<Delivery>().ToTable("delivery", schemaName);
+            modelBuilder.Entity<Image>().ToTable("image", schemaName);
         }
 
         public DbSet<ExceptionDetail> ExceptionDetails { get; set; }
@@ -49,6 +50,7 @@ namespace Pizza.Models
         public DbSet<Bill> Bills { get; set; }
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {
