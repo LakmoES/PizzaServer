@@ -10,7 +10,7 @@ namespace Pizza.Models
         public List<API> Apis { private set; get; }
         public ApiContext()
         {
-            Apis = new List<API>();
+            Apis = new List<API>(); 
             Apis.Add(new API { requireToken = false, url = "Auth/RegisterUser", type = "POST", parameters = "string username [Имя пользователя], string password [Пароль], string email [Email адрес], string name [Имя], string surname [Фамилия]", description = "Регистрация нового пользователя. Фамилию можно опустить.", returns = "ok/JsonArray(errors)" });
             Apis.Add(new API { requireToken = false, url = "Auth/NewGuest", type = "GET", parameters = "-", description = "Гостевая регистрация.", returns = "Json/JsonArray(errors)" });
             Apis.Add(new API { requireToken = false, url = "Auth/Login", type = "POST", parameters = "string username [Имя пользователя], string password [Пароль]", description = "Авторизация. Получение access token", returns = "Json/false" });
