@@ -11,7 +11,13 @@ namespace Pizza.Models.DBEntities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { set; get; }
+
+        [Required, MaxLength(30)]
         public string number { set; get; }
+
+        [Required]
         public int user { set; get; }
+        [ForeignKey("user")]
+        public virtual User User { set; get; }
     }
 }

@@ -34,6 +34,9 @@ namespace Pizza.Models
             modelBuilder.Entity<OrderedProduct>().ToTable("orderedproduct", schemaName);
             modelBuilder.Entity<Delivery>().ToTable("delivery", schemaName);
             modelBuilder.Entity<Image>().ToTable("image", schemaName);
+            modelBuilder.Entity<Staff>().ToTable("staff", schemaName);
+            modelBuilder.Entity<Runner>().ToTable("runner", schemaName);
+            modelBuilder.Entity<RunnerTelephone>().ToTable("runnertelephone", schemaName);
         }
 
         public DbSet<ExceptionDetail> ExceptionDetails { get; set; }
@@ -51,10 +54,13 @@ namespace Pizza.Models
         public DbSet<OrderedProduct> OrderedProducts { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<Staff> Staves { get; set; }
+        public DbSet<Runner> Runners { get; set; }
+        public DbSet<RunnerTelephone> RunnerTelephones { get; set; }
 
         public Int64 GetNextGuestIDValue()
         {
-            var rawQuery = Database.SqlQuery<Int64>(String.Format("SELECT NEXT VALUE FOR {0}.{1};", schemaName, guestIDSecuenceName));
+            var rawQuery = Database.SqlQuery<Int64>($"SELECT NEXT VALUE FOR {schemaName}.{guestIDSecuenceName};");
             var task = rawQuery.SingleAsync();
             Int64 nextVal = task.Result;
 

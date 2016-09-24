@@ -159,6 +159,8 @@
     <Compile Include="Models\DBEntities\Product.cs" />
     <Compile Include="Models\DBEntities\ProductType.cs" />
     <Compile Include="Models\DBEntities\PromoCode.cs" />
+    <Compile Include="Models\DBEntities\Runner.cs" />
+    <Compile Include="Models\DBEntities\RunnerTelephone.cs" />
     <Compile Include="Models\DBEntities\ShoppingCart.cs" />
     <Compile Include="Models\DBEntities\Staff.cs" />
     <Compile Include="Models\DBEntities\User.cs" />

@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using System.Linq;
 using System.Web;
 
 namespace Pizza.Models.DBEntities
 {
-    public class BillStatus
+    public class RunnerTelephone
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { set; get; }
 
-        [Required/*, Index(IsUnique = true)*/]
-        public string title { set; get; }
+        [Required, MaxLength(30)]
+        public string number { set; get; }
 
-        public virtual List<Bill> Bills { get; set; }
+        [Required]
+        public int runner { set; get; }
+        [ForeignKey("runner")]
+        public virtual Runner Runner { set; get; }
     }
 }

@@ -109,7 +109,7 @@ namespace Pizza.Controllers
         public JsonResult NewGuest()
         {
             User guest = new User();
-            guest.username = guestPrefix + dbContext.GetNextGuestIDValue();
+            guest.username = guestPrefix;// + dbContext.GetNextGuestIDValue();
             guest.password = RandomString(10);
             guest.email = null;
             guest.name = null;
@@ -131,6 +131,13 @@ namespace Pizza.Controllers
                     {
                         dbContext.Users.Add(guest);
                         dbContext.SaveChanges();
+
+                        dbContext.Entry(guest).GetDatabaseValues();
+                        dbContext.Users.Attach(guest);
+                        var entry = dbContext.Entry(guest);
+
+                        entry.Property(e => e.username).IsModified = true;
+                        entry.Entity.username = $"{guest.username}{guest.id}";
                     }
                     catch (System.Data.SqlClient.SqlException sEx) { errors.Add(new Error { error = "Ошибка БД. " + sEx.Message }); }
                     //catch (Exception) { errors.Add(new Error { error = "Неизвестная ошибка БД" }); }

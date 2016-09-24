@@ -11,9 +11,20 @@ namespace Pizza.Models.DBEntities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { set; get; }
+
+        [Required]
         public int bill { set; get; }
+        [ForeignKey("bill")]
+        public virtual Bill Bill { set; get; }
+
+        [Required]
         public int product { set; get; }
+        [ForeignKey("product")]
+        public virtual Product Product { set; get; }
+
+        [Required]
         public int amount { set; get; }
-        public Decimal cost { set; get; }
+
+        public decimal? cost { set; get; }
     }
 }

@@ -11,6 +11,10 @@ namespace Pizza.Models.DBEntities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { set; get; }
+
+        [Required, MaxLength(15)]
         public string title { set; get; }
+
+        public virtual List<Product> Products { set; get; }
     }
 }

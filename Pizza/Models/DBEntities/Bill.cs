@@ -37,5 +37,7 @@ namespace Pizza.Models.DBEntities
 
         [Required]
         public DateTime date { set; get; }
+
+        public virtual List<OrderedProduct> OrderedProducts { set; get; }
     }
 }
