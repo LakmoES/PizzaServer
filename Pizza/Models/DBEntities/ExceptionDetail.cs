@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -8,7 +9,7 @@ namespace Pizza.Models.DBEntities
 {
     public class ExceptionDetail
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string ExceptionMessage { get; set; }    // сообщение об исключении
         public string ControllerName { get; set; }  // контроллер, где возникло исключение
